@@ -182,17 +182,27 @@ public class LocationTrackingActivity extends AppCompatActivity implements OnMap
     }
 
     public void triggerPanicAlarm() {
-        // You can customize this method to perform actions when the panic button is clicked
-        // For example, sending SMS, making a phone call, etc.
+        // Retrieve the emergency contact phone number from SharedPreferences
+        String emergencyPhoneNumber = getEmergencyContact();
 
-        // Example: Send an SMS
-        String emergencyPhoneNumber = "+60179757461";
-        String message = "Emergency! I need help!";
-        sendSms(emergencyPhoneNumber, message);
+        // Check if the emergency phone number is not empty before proceeding
+        if (!emergencyPhoneNumber.isEmpty()) {
+            // Example: Send an SMS
+            String message = "Emergency! I need help!";
+            sendSms(emergencyPhoneNumber, message);
 
-        // Example: Make a phone call
-        // Uncomment the line below to make a phone call (don't forget to add CALL_PHONE permission)
-        // makePhoneCall(emergencyPhoneNumber);
+            // Example: Make a phone call
+            // Uncomment the line below to make a phone call (don't forget to add CALL_PHONE permission)
+            // makePhoneCall(emergencyPhoneNumber);
+        } else {
+            // Handle the case where the emergency contact is not set
+        }
+    }
+
+    private String getEmergencyContact() {
+        // Retrieve the emergency contact from SharedPreferences
+        return getSharedPreferences("MyPrefs", MODE_PRIVATE)
+                .getString("emergencyContact", "");
     }
 
     private void sendSms(String phoneNumber, String message) {
@@ -201,6 +211,5 @@ public class LocationTrackingActivity extends AppCompatActivity implements OnMap
         intent.putExtra("sms_body", message);
         startActivity(intent);
     }
-
 
 }
