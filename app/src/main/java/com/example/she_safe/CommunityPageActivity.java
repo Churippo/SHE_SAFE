@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class CommunityActivity extends AppCompatActivity {
+public class CommunityPageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class CommunityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Navigate to the NewPostActivity when ButtonPost is clicked
-                Intent intent = new Intent(CommunityActivity.this, NewPostActivity.class);
+                Intent intent = new Intent(CommunityPageActivity.this, NewPostActivity.class);
                 startActivity(intent);
             }
         });
