@@ -8,7 +8,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView imageView2 = findViewById(R.id.imageView2);
         ImageView imageView3 = findViewById(R.id.imageView3);
         ImageView imageView4 = findViewById(R.id.imageView4);
+        ImageView imageView7 = findViewById(R.id.imageView7);
 
 
         // Set images for the ImageViews
@@ -36,12 +41,13 @@ public class MainActivity extends AppCompatActivity {
         imageView2.setImageResource(R.drawable.community);
         imageView3.setImageResource(R.drawable.tips);
         imageView4.setImageResource(R.drawable.messages);
-
+        imageView7.setImageResource(R.drawable.sos);
 
         // Set text for TextViews
         usernameTextView.setText("Hello, Fatihah");
         locationTextView.setText("KK12, Petaling Jaya");
 
+        loadUserProfilePicture(profilePictureImageView);
 
         profilePictureImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,5 +96,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void loadUserProfilePicture(ImageView profilePictureImageView) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db.collection("Users").document("nxRrSpdgwWTDuwMQI9Wx");
+
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    // User data found
+                    String profilePictureUrl = documentSnapshot.getString("profilePictureUrl");
+
+                    // Load profile picture using Glide or your preferred method
+                    Glide.with(MainActivity.this).load(profilePictureUrl).into(profilePictureImageView);
+                }
+            }
+        });
+    }
 
 }

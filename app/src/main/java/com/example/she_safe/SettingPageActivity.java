@@ -56,6 +56,13 @@ public class SettingPageActivity extends AppCompatActivity {
             }
         });
 
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle Logout Button Click
+                logoutClick();
+            }
+        });
 
 
         // Set Dark Mode Switch listener
@@ -88,4 +95,7 @@ public class SettingPageActivity extends AppCompatActivity {
 
     // Functionality for Logout Button Click
 
+    private void logoutClick() {
+        Toast.makeText(this, "Logout Clicked", Toast.LENGTH_SHORT).show();
+    }
 }
