@@ -1,12 +1,14 @@
 package com.example.she_safe;
+// Import statements for necessary classes
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -45,11 +47,14 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
     private void savePostToDatabase(String postContent) {
+        // Assume you have the user's ID, replace "user_id_placeholder" with the actual user ID
+        String userId = "user_id_placeholder";
+
         // Generate a unique key for the post
         String postId = databaseReference.push().getKey();
 
-        // Create a Post object with the post content
-        Post post = new Post(postContent);
+        // Create a Post object with the user ID and post content
+        Post post = new Post(userId, postContent);
 
         // Save the post to the database using the generated key
         databaseReference.child(postId).setValue(post);
