@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFEBF5">
+
+    <LinearLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorAccent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_settings"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textSize="24sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <!-- Dark Mode Toggle -->
+            <LinearLayout
+                android:layout_width="400dp"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_dark_mode"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dark Mode"
+                    android:textSize="20sp"
+                    android:textColor="#000000"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <Switch
+                    android:id="@+id/darkModeSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:thumbTint="@color/black"
+                    android:trackTint="@color/colorAccent" />
+            </LinearLayout>
+
+            <!-- Share App -->
+
+            <Button
+                android:id="@+id/shareAppButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Share App"
+                android:drawableStart="@drawable/ic_share"
+                android:background="@drawable/rounded_border_button"
+                android:textColor="#FFFFFF"
+                android:drawableTint="@color/white"
+                android:textSize="18sp"
+                android:paddingStart="14dp"
+                android:paddingEnd="24dp"
+                android:drawablePadding="10dp"
+                android:onClick="shareAppClick" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Share this app with friends"
+                android:textSize="18sp"
+                android:textColor="#757575"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- Help -->
+
+            <Button
+                android:id="@+id/helpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Help"
+                android:drawableStart="@drawable/ic_help"
+                android:background="@drawable/rounded_border_button"
+                android:textColor="#FFFFFF"
+                android:drawableTint="@color/white"
+                android:textSize="18sp"
+                android:paddingStart="14dp"
+                android:paddingEnd="24dp"
+                android:drawablePadding="10dp"
+                android:onClick="helpClick" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Get assistance and information"
+                android:textSize="18sp"
+                android:textColor="#757575"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- Logout -->
+
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:drawableStart="@drawable/ic_logout"
+                android:background="@drawable/rounded_border_button"
+                android:textColor="#FFFFFF"
+                android:drawableTint="@color/white"
+                android:textSize="18sp"
+                android:paddingStart="14dp"
+                android:paddingEnd="24dp"
+                android:drawablePadding="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign out from the app"
+                android:textSize="18sp"
+                android:textColor="#757575"
+                android:layout_marginBottom="20dp"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
