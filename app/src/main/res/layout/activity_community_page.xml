@@ -27,12 +27,6 @@
             android:paddingVertical="30dp">
 
             <TextView
-                android:id="@+id/TVPoster1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Announcement 1" />
-
-            <TextView
                 android:id="@+id/TVPost1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,12 +38,6 @@
                 android:layout_height="1dp"
                 android:layout_marginVertical="10dp"
                 android:background="?android:attr/listDivider" />
-
-            <TextView
-                android:id="@+id/TVPoster2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Announcement 1" />
 
             <TextView
                 android:id="@+id/TVPost2"
