@@ -6,9 +6,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseUser firebaseUser;
     private TextView usernameTextView;
+    private ImageView profilePictureImageView;
+    private TextView locationTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +31,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Initialize views
-        ImageView profilePictureImageView = findViewById(R.id.profilePictureImageView);
+        profilePictureImageView = findViewById(R.id.profilePictureImageView);
         ImageView iconMap = findViewById(R.id.iconMap);
-        TextView locationTextView = findViewById(R.id.locationTextView);
+        locationTextView = findViewById(R.id.locationTextView);
         ImageView settingImageView = findViewById(R.id.settingImageView);
         ImageView imageView1 = findViewById(R.id.imageView1);
         ImageView imageView2 = findViewById(R.id.imageView2);
         ImageView imageView3 = findViewById(R.id.imageView3);
         ImageView imageView4 = findViewById(R.id.imageView4);
         ImageView imageView7 = findViewById(R.id.imageView7);
-
 
         // Set images for the ImageViews
         iconMap.setImageResource(R.drawable.location);
@@ -47,18 +50,17 @@ public class MainActivity extends AppCompatActivity {
         imageView4.setImageResource(R.drawable.messages);
         imageView7.setImageResource(R.drawable.sos);
 
-
+        // Initialize other variables
         usernameTextView = findViewById(R.id.usernameTextView);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (firebaseUser!=null) {
-            usernameTextView.setText(firebaseUser.getDisplayName());
-        }else{
-            usernameTextView.setText("Login Failed");
+        if (firebaseUser != null) {
+            loadUserData();
+        } else {
+            usernameTextView.setText("User not authenticated");
         }
-        locationTextView.setText("KK12, Petaling Jaya");
 
-        loadUserProfilePicture(profilePictureImageView);
+        locationTextView.setText("KK12, Petaling Jaya");
 
         profilePictureImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,22 +109,36 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadUserProfilePicture(ImageView profilePictureImageView) {
+    private void loadUserData() {
+        String userId = firebaseUser.getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference userRef = db.collection("Users").document("nxRrSpdgwWTDuwMQI9Wx");
+        DocumentReference userRef = db.collection("Users").document(userId);
 
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
                     // User data found
-                    String profilePictureUrl = documentSnapshot.getString("profilePictureUrl");
+                    String username = documentSnapshot.getString("username");
+                    String location = documentSnapshot.getString("location");
+
+                    // Use the retrieved data as needed
+                    usernameTextView.setText(username);
+                    locationTextView.setText(location);
 
                     // Load profile picture using Glide or your preferred method
+                    String profilePictureUrl = documentSnapshot.getString("profilePictureUrl");
                     Glide.with(MainActivity.this).load(profilePictureUrl).into(profilePictureImageView);
+                } else {
+                    // Document does not exist
+                    // Handle this case if necessary
                 }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Handle failures, such as no internet connection or other errors
             }
         });
     }
-
 }

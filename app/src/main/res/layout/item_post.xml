@@ -4,11 +4,32 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/contentTextView"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/postContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"/>
+        android:background="@drawable/post_background">
+
+        <TextView
+            android:id="@+id/userNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/poppins_medium"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:id="@+id/contentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userNameTextView"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:layout_margin="5dp"/>
+    </RelativeLayout>
 
 </RelativeLayout>
