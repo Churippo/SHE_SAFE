@@ -1,11 +1,16 @@
 package com.example.she_safe;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -20,10 +25,22 @@ public class CommunityPageActivity extends AppCompatActivity {
     private List<Post> postList;
     private PostAdapter postAdapter;
 
+    private ImageView bekbekbek;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community_page);
+
+        bekbekbek = findViewById(R.id.back); // Replace with the actual ID of your ImageView
+
+        bekbekbek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityPageActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
