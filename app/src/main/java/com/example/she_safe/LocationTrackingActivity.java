@@ -212,4 +212,9 @@ public class LocationTrackingActivity extends AppCompatActivity implements OnMap
         startActivity(intent);
     }
 
+    private void makePhoneCall(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        startActivity(intent);
+    }
 }
