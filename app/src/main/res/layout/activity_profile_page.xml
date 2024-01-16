@@ -49,30 +49,47 @@
             </LinearLayout>
 
             <!-- Username Edit Section -->
-            <EditText
-                android:id="@+id/usernameEditText"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Username"
-                android:inputType="text"
-                android:background="#FFFFFF"
-                android:layout_marginBottom="16dp"
-                android:padding="12dp"
-                android:drawablePadding="8dp"
-                android:drawableStart="@drawable/ic_person"/>
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="@color/white"
+                android:layout_marginTop="10dp">
+                <EditText
+                    android:id="@+id/usernameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter New Username"
+                    android:inputType="text"
+                    android:background="#FFFFFF"
+                    android:layout_marginBottom="16dp"
+                    android:padding="12dp"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/ic_person"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- Username Edit Section -->
 
             <!-- Login Info Edit Section -->
-            <EditText
-                android:id="@+id/passwordEditText"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Password"
-                android:inputType="textPassword"
-                android:background="#FFFFFF"
-                android:layout_marginBottom="16dp"
-                android:padding="12dp"
-                android:drawablePadding="8dp"
-                android:drawableStart="@drawable/ic_lock"/>
+                app:passwordToggleEnabled="true"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="@color/white">
+                <EditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter New Password"
+                    android:background="#FFFFFF"
+                    android:layout_marginBottom="16dp"
+                    android:padding="12dp"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/ic_lock"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- Login Info Edit Section -->
+
 
             <!-- Save Button -->
             <Button

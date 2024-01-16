@@ -217,37 +217,36 @@
 
         </LinearLayout>
         <androidx.cardview.widget.CardView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="18dp"
             app:cardElevation="1dp"
             android:layout_margin="8dp">
+
             <LinearLayout
                 android:layout_width="350dp"
                 android:layout_height="70dp"
+                android:background="@color/greyish"
+                android:gravity="center"
                 android:orientation="horizontal"
-                android:background="@drawable/rounded_border_button"
-                android:padding="16dp"
-                android:gravity="center">
+                android:padding="16dp">
 
                 <ImageView
                     android:id="@+id/imageView7"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/sos"
-                    android:adjustViewBounds="true"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginRight="15dp"
-                    android:scaleType="fitCenter"/>
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/sos" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="SOS"
+                    android:textColor="@color/red"
                     android:textSize="30dp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
