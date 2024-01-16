@@ -108,8 +108,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadUserProfilePicture(ImageView profilePictureImageView) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference userRef = db.collection("Users").document("nxRrSpdgwWTDuwMQI9Wx");
+        DocumentReference userRef = db.collection("users").document(userId);
 
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override

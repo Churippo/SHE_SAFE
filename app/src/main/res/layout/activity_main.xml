@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFEBF5"
+    android:background="@color/settingbg"
     android:padding="16dp"
     tools:context=".MainActivity">
 
@@ -46,6 +46,7 @@
                     android:layout_height="wrap_content"
                     android:text="Hello, Username"
                     android:textStyle="bold"
+                    android:textColor="@color/black"
                     android:textSize="20dp"
                     android:layout_marginRight="60dp"
                     />
@@ -84,6 +85,7 @@
                 android:src="@drawable/setting"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
+                app:tint="@color/black"
                 android:layout_marginBottom="18dp"
                 android:layout_marginLeft="25dp"/>
         </LinearLayout>
@@ -115,7 +117,7 @@
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="#FFFFFF"
+                    android:background="@color/greyish"
                     android:padding="16dp"
                     android:gravity="center">
 
@@ -153,7 +155,7 @@
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="#FFFFFF"
+                    android:background="@color/greyish"
                     android:padding="16dp"
                     android:gravity="center">
 
@@ -171,6 +173,7 @@
                         android:layout_height="wrap_content"
                         android:text="Tips"
                         android:textStyle="bold"
+                        android:textColor="@color/black"
                         />
 
                 </LinearLayout>
@@ -188,7 +191,7 @@
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="#FFFFFF"
+                    android:background="@color/greyish"
                     android:padding="16dp"
                     android:gravity="center">
 
@@ -206,6 +209,7 @@
                         android:layout_height="wrap_content"
                         android:text="My Contact"
                         android:textStyle="bold"
+                        android:textColor="@color/black"
                         />
 
                 </LinearLayout>

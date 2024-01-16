@@ -11,11 +11,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Register extends AppCompatActivity {
     private EditText editName, editEmail,editPassword,editPasswordConf;
@@ -76,6 +83,7 @@ public class Register extends AppCompatActivity {
                         firebaseUser.updateProfile(request).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+                                addUserToFirestore(firebaseUser.getUid(), name, email,password);
                                 reload();
                             }
                         });
@@ -87,6 +95,37 @@ public class Register extends AppCompatActivity {
                 }
             }
         });
+    }
+    private void addUserToFirestore(String userId, String name, String email,String password) {
+        // Assuming you have a "users" collection in Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference usersCollection = db.collection("users");
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("userId", userId);
+        user.put("username", name);
+        user.put("email", email);
+        user.put("password",password);
+        user.put("profilePictureUrl","");
+
+        usersCollection.document(userId).set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Document added successfully
+                        Toast.makeText(getApplicationContext(), "User added to Firestore", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        reload();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle failure to add user to Firestore
+                        Toast.makeText(getApplicationContext(), "Failed to add user to Firestore", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }
+                });
     }
 
     private void reload(){

@@ -2,6 +2,7 @@ package com.example.she_safe;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,28 +18,24 @@ public class SettingPageActivity extends AppCompatActivity {
 
     private Switch darkModeSwitch;
     private Button shareAppButton, helpButton, logoutButton;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_page);
-
+        mAuth = FirebaseAuth.getInstance();
         // Initialize Dark Mode Toggle
         darkModeSwitch = findViewById(R.id.darkModeSwitch);
 
         // Initialize Share App Button
-        shareAppButton = findViewById(R.id.shareAppButton);
+        shareAppButton = findViewById(R.id.shareAppButtonn);
 
-        // Initialize Help Button
-        helpButton = findViewById(R.id.helpButton);
+
 
         logoutButton = findViewById(R.id.logoutButton);
 
-        logoutButton.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(SettingPageActivity.this, Login.class));
-            finish(); // Close the current activity to prevent returning to it with the back button
-        });
+
         // Set Click Listeners
         shareAppButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,13 +45,7 @@ public class SettingPageActivity extends AppCompatActivity {
             }
         });
 
-        helpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle Help Button Click
-                helpClick();
-            }
-        });
+
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +58,8 @@ public class SettingPageActivity extends AppCompatActivity {
 
         // Set Dark Mode Switch listener
         darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Log.d("DarkModeSwitch", "Dark mode clicked");
+
             // Toggle dark mode based on the switch state
             if (isChecked) {
                 // Enable dark mode
@@ -75,7 +68,6 @@ public class SettingPageActivity extends AppCompatActivity {
                 // Disable dark mode
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
-            recreate(); // Apply the changes
         });
     }
 
@@ -88,14 +80,14 @@ public class SettingPageActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(shareIntent, "Share SheSafe with friends"));
     }
 
-    // Functionality for Help Button Click
-    private void helpClick() {
-        Toast.makeText(this, "Navigate to Help Section", Toast.LENGTH_SHORT).show();
-    }
 
     // Functionality for Logout Button Click
 
     private void logoutClick() {
-        Toast.makeText(this, "Logout Clicked", Toast.LENGTH_SHORT).show();
+        mAuth.signOut();
+        startActivity(new Intent(getApplicationContext(), Login.class));
+        finish();
     }
+
+
 }
