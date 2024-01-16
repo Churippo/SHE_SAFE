@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseUser firebaseUser;
     private TextView usernameTextView;
-    private ImageView profilePictureImageView;
-    private TextView locationTextView;
+//    private ImageView profilePictureImageView;
+//    private TextView locationTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Initialize views
-        profilePictureImageView = findViewById(R.id.profilePictureImageView);
+        ImageView profilePictureImageView = findViewById(R.id.profilePictureImageView);
         ImageView iconMap = findViewById(R.id.iconMap);
-        locationTextView = findViewById(R.id.locationTextView);
+        TextView locationTextView = findViewById(R.id.locationTextView);
         ImageView settingImageView = findViewById(R.id.settingImageView);
         ImageView imageView1 = findViewById(R.id.imageView1);
         ImageView imageView2 = findViewById(R.id.imageView2);
@@ -55,12 +55,14 @@ public class MainActivity extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (firebaseUser != null) {
-            loadUserData();
+            usernameTextView.setText(firebaseUser.getDisplayName());
         } else {
-            usernameTextView.setText("User not authenticated");
+            usernameTextView.setText("Login Failed");
         }
 
         locationTextView.setText("KK12, Petaling Jaya");
+
+        loadUserProfilePicture(profilePictureImageView);
 
         profilePictureImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,36 +111,58 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadUserData() {
-        String userId = firebaseUser.getUid();
+
+    private void loadUserProfilePicture(ImageView profilePictureImageView) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference userRef = db.collection("Users").document(userId);
+        DocumentReference userRef = db.collection("Users").document("3va4kVo7dsOw523ESfxzz7hAZm63");
 
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
                     // User data found
-                    String username = documentSnapshot.getString("username");
-                    String location = documentSnapshot.getString("location");
-
-                    // Use the retrieved data as needed
-                    usernameTextView.setText(username);
-                    locationTextView.setText(location);
+                    String profilePictureUrl = documentSnapshot.getString("profilePictureUrl");
 
                     // Load profile picture using Glide or your preferred method
-                    String profilePictureUrl = documentSnapshot.getString("profilePictureUrl");
                     Glide.with(MainActivity.this).load(profilePictureUrl).into(profilePictureImageView);
-                } else {
-                    // Document does not exist
-                    // Handle this case if necessary
                 }
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Handle failures, such as no internet connection or other errors
-            }
         });
+
+//        private void loaduserdata () {
+//            String userId = firebaseUser.getUid();
+//            db = FirebaseFirestore.getInstance();
+//            userRef = db.collection("Users").document(userId);
+//
+//            userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                @Override
+//                public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                    if (documentSnapshot.exists()) {
+//                        // User data found
+//                        String username = documentSnapshot.getString("username");
+//                        String location = documentSnapshot.getString("location");
+//
+//                        // Use the retrieved data as needed
+//                        usernameTextView.setText(username);
+//                        locationTextView.setText(location);
+//
+//                        // Load profile picture using Glide or your preferred method
+//                        String profilePictureUrl = documentSnapshot.getString("profilePictureUrl");
+//                        Glide.with(MainActivity.this).load(profilePictureUrl).into(profilePictureImageView);
+//                    } else {
+//                        // Document does not exist
+//                        // Handle this case if necessary
+//                    }
+//                }
+//
+//
+
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    // Handle failures, such as no internet connection or other errors
+//                }
+//            });
+//        }
     }
 }

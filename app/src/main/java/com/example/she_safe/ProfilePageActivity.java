@@ -14,11 +14,19 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -37,6 +45,8 @@ public class ProfilePageActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private StorageReference storageRef;
+
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,23 +83,24 @@ public class ProfilePageActivity extends AppCompatActivity {
     private void loadUserData() {
         // Retrieve user data from Firestore and update UI
         // Assuming your user data is stored in a document named "profile"
-        DocumentReference userRef = db.collection("Users").document("nxRrSpdgwWTDuwMQI9Wx");
+        String currentUserEmail =  FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
+        CollectionReference usersCollection = db.collection("users");
+        Query query = usersCollection.whereEqualTo("email", currentUserEmail);
 
-        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     // User data found
+                    userId = documentSnapshot.getString("userId");
                     String username = documentSnapshot.getString("username");
                     String password = documentSnapshot.getString("password");
                     String profilePictureUrl = documentSnapshot.getString("profilePictureUrl");
-
                     usernameEditText.setText(username);
                     passwordEditText.setText(password);
-
-                    // Load profile picture using an image loading library or your preferred method
-                    // For simplicity, you can use Glide or Picasso
-                    Glide.with(ProfilePageActivity.this).load(profilePictureUrl).into(profilePictureImageView);
+                    if(!profilePictureUrl.equals("")){
+                        Glide.with(ProfilePageActivity.this).load(profilePictureUrl).into(profilePictureImageView);
+                    }
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -119,7 +130,7 @@ public class ProfilePageActivity extends AppCompatActivity {
     }
 
     private void saveChanges() {
-        DocumentReference userRef = db.collection("Users").document("nxRrSpdgwWTDuwMQI9Wx");
+        DocumentReference userRef = db.collection("users").document(userId);
 
         // Update username and password
         String newUsername = usernameEditText.getText().toString();
@@ -131,10 +142,26 @@ public class ProfilePageActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         // Update successful
                         Toast.makeText(ProfilePageActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+                        if (user != null) {
+                            user.updatePassword(newPassword)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                // Password change successful
+                                                Toast.makeText(getApplicationContext(), "Password changed successfully", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                // Password change failed
+                                                Toast.makeText(getApplicationContext(), "Failed to change password", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                        }
                         // If a new profile picture is selected, upload it to Firebase Storage
                         if (imageUri != null) {
-                            uploadProfilePicture("nxRrSpdgwWTDuwMQI9Wx");
+                            uploadProfilePicture(userId);
                         }
                     }
                 })
@@ -160,7 +187,7 @@ public class ProfilePageActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 // Update the profile picture URL in Firestore
-                                db.collection("Users").document("nxRrSpdgwWTDuwMQI9Wx")
+                                db.collection("users").document(userId)
                                         .update("profilePictureUrl", uri.toString())
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
