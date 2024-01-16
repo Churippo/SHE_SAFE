@@ -100,29 +100,6 @@
 
             <!-- Help -->
 
-            <Button
-                android:id="@+id/helpButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Help"
-                android:drawableStart="@drawable/ic_help"
-                android:background="@drawable/rounded_border_button"
-                android:textColor="#FFFFFF"
-                android:drawableTint="@color/white"
-                android:textSize="18sp"
-                android:paddingStart="14dp"
-                android:paddingEnd="24dp"
-                android:drawablePadding="10dp"
-                android:onClick="helpClick" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Get assistance and information"
-                android:textSize="18sp"
-                android:textColor="#757575"
-                android:layout_marginBottom="20dp"/>
-
-            <!-- Logout -->
 
             <Button
                 android:id="@+id/logoutButton"
