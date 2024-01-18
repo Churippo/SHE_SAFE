@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFEBF5">
+    android:background="@color/settingbg">
 
     <LinearLayout
         android:id="@+id/appBar"
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:text="Dark Mode"
                     android:textSize="20sp"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"/>
 
@@ -69,7 +69,6 @@
                     android:id="@+id/darkModeSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="false"
                     android:thumbTint="@color/black"
                     android:trackTint="@color/colorAccent" />
             </LinearLayout>
@@ -77,13 +76,13 @@
             <!-- Share App -->
 
             <Button
-                android:id="@+id/shareAppButton"
+                android:id="@+id/shareAppButtonn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Share App"
                 android:drawableStart="@drawable/ic_share"
                 android:background="@drawable/rounded_border_button"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:drawableTint="@color/white"
                 android:textSize="18sp"
                 android:paddingStart="14dp"
@@ -98,29 +97,7 @@
                 android:textColor="#757575"
                 android:layout_marginBottom="20dp"/>
 
-            <!-- Help -->
 
-            <Button
-                android:id="@+id/helpButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Help"
-                android:drawableStart="@drawable/ic_help"
-                android:background="@drawable/rounded_border_button"
-                android:textColor="#FFFFFF"
-                android:drawableTint="@color/white"
-                android:textSize="18sp"
-                android:paddingStart="14dp"
-                android:paddingEnd="24dp"
-                android:drawablePadding="10dp"
-                android:onClick="helpClick" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Get assistance and information"
-                android:textSize="18sp"
-                android:textColor="#757575"
-                android:layout_marginBottom="20dp"/>
 
             <!-- Logout -->
 
@@ -131,7 +108,7 @@
                 android:text="Logout"
                 android:drawableStart="@drawable/ic_logout"
                 android:background="@drawable/rounded_border_button"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:drawableTint="@color/white"
                 android:textSize="18sp"
                 android:paddingStart="14dp"
