@@ -50,7 +50,7 @@ public class LocationTrackingActivity extends AppCompatActivity implements OnMap
         btn_chat = findViewById(R.id.btn_chat);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        getLastLocation();
+         // Request the device's last known location
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(LocationTrackingActivity.this);
@@ -89,6 +89,7 @@ public class LocationTrackingActivity extends AppCompatActivity implements OnMap
             @Override
             public void onClick(View view) {
 
+                getLastLocation();
             }
         });
 
@@ -109,40 +110,47 @@ public class LocationTrackingActivity extends AppCompatActivity implements OnMap
     }
 
     private void getLastLocation() {
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new  String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
+        // Check if the app has permission to access the device's location
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Request location permission if not granted
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
             return;
         }
+
+        // Get the last known location using FusedLocationProviderClient
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                if (location != null){
+                if (location != null) {
+                    // Update the currentLocation and move the map camera to the new location
                     currentLocation = location;
-
-                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-                    mapFragment.getMapAsync(LocationTrackingActivity.this);
+                    updateMapWithLocation(currentLocation);
                 }
             }
         });
     }
+
+    private void updateMapWithLocation(Location location) {
+        // Update the map with the new location
+        LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        myMap.addMarker(new MarkerOptions().position(currentLatLng).title("My Location"));
+        myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f));
+    }
+
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
         myMap = googleMap;
 
-        LatLng KL = new LatLng(3.092329, 101.621580);
-        myMap.addMarker(new MarkerOptions().position(KL).title("Park 51 Residency"));
-        myMap.moveCamera(CameraUpdateFactory.newLatLng(KL));
-
+        LatLng CurrentLocation = new LatLng(4.2105, 101.9758);
+        myMap.moveCamera(CameraUpdateFactory.newLatLng(CurrentLocation));
+        myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CurrentLocation, 8f));
         myMap.getUiSettings().setZoomControlsEnabled(false);
         myMap.getUiSettings().setCompassEnabled(true);
 
-        MarkerOptions options = new MarkerOptions().position(KL).title("Sydney");
-        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-        myMap.addMarker(options);
 
 
     }
