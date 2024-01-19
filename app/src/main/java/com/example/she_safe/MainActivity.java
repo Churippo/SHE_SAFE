@@ -109,12 +109,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        imageView7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, IncidentDocumentationActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-
     private void loadUserProfilePicture(ImageView profilePictureImageView) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference userRef = db.collection("Users").document("3va4kVo7dsOw523ESfxzz7hAZm63");
+        DocumentReference userRef = db.collection("users").document(userId);
 
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -128,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
 //        private void loaduserdata () {
 //            String userId = firebaseUser.getUid();
@@ -165,4 +173,4 @@ public class MainActivity extends AppCompatActivity {
 //            });
 //        }
     }
-}
+

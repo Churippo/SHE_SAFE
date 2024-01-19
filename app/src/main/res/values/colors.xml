@@ -33,7 +33,9 @@
     <color name="pink_20">#33F6ABB6</color>
     <color name="lollipop_20">#33009688</color>
     <color name="buttonColor">#000000</color>
-
+    <color name="textColorWhite">#FFFFFFFF</color>
+    <color name="settingbg">#FFEBF5</color>
+    <color name="greyish">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="my_custom_color">#FFD7E9</color>
     <color name="my_tint_color">#FFD7E9</color>

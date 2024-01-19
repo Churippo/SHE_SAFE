@@ -82,9 +82,11 @@ public class ProfilePageActivity extends AppCompatActivity {
 
     private void loadUserData() {
         // Retrieve user data from Firestore and update UI
-        // Assuming your user data is stored in a document named "profile"
+        // Reference to the "users" collection
         String currentUserEmail =  FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
         CollectionReference usersCollection = db.collection("users");
+
+        // Query to filter users based on email
         Query query = usersCollection.whereEqualTo("email", currentUserEmail);
 
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {

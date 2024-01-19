@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SettingPageActivity extends AppCompatActivity {
 
     private Switch darkModeSwitch;
-    private Button shareAppButton,  logoutButton;
+    private Button shareAppButton, helpButton, logoutButton;
     private FirebaseAuth mAuth;
 
     @Override
@@ -25,22 +25,17 @@ public class SettingPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_page);
         mAuth = FirebaseAuth.getInstance();
-
         // Initialize Dark Mode Toggle
         darkModeSwitch = findViewById(R.id.darkModeSwitch);
 
         // Initialize Share App Button
-        shareAppButton = findViewById(R.id.shareAppButton);
+        shareAppButton = findViewById(R.id.shareAppButtonn);
 
-        // Initialize Help Button
+
 
         logoutButton = findViewById(R.id.logoutButton);
 
-//        logoutButton.setOnClickListener(v -> {
-//            FirebaseAuth.getInstance().signOut();
-//            startActivity(new Intent(SettingPageActivity.this, Login.class));
-//            finish(); // Close the current activity to prevent returning to it with the back button
-//        });
+
         // Set Click Listeners
         shareAppButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +44,7 @@ public class SettingPageActivity extends AppCompatActivity {
                 shareAppClick();
             }
         });
+
 
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +71,6 @@ public class SettingPageActivity extends AppCompatActivity {
         });
     }
 
-
     // Functionality for Share App Button Click
     private void shareAppClick() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -85,7 +80,6 @@ public class SettingPageActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(shareIntent, "Share SheSafe with friends"));
     }
 
-    // Functionality for Help Button Click
 
     // Functionality for Logout Button Click
 
@@ -94,4 +88,6 @@ public class SettingPageActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), Login.class));
         finish();
     }
+
+
 }
