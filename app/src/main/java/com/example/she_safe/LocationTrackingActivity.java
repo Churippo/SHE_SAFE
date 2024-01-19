@@ -195,13 +195,30 @@ public class LocationTrackingActivity extends AppCompatActivity implements OnMap
 
         // Check if the emergency phone number is not empty before proceeding
         if (!emergencyPhoneNumber.isEmpty()) {
-            // Example: Send an SMS
-            String message = "Emergency! I need help!";
-            sendSms(emergencyPhoneNumber, message);
+            // Get the user's current location
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // Request location permission if not granted
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
+                return;
+            }
 
-            // Example: Make a phone call
-            // Uncomment the line below to make a phone call (don't forget to add CALL_PHONE permission)
-            // makePhoneCall(emergencyPhoneNumber);
+            // Get the last known location using FusedLocationProviderClient
+            Task<Location> task = fusedLocationProviderClient.getLastLocation();
+            task.addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if (location != null) {
+                        // Build the SMS message with the user's current location
+                        String message = "Emergency! I need help! My current location is: " +
+                                "Latitude: " + location.getLatitude() +
+                                ", Longitude: " + location.getLongitude();
+
+                        // Send the SMS
+                        sendSms(emergencyPhoneNumber, message);
+                    }
+                }
+            });
         } else {
             // Handle the case where the emergency contact is not set
         }
